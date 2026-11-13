@@ -14,7 +14,7 @@
 body{background:var(--bg);color:var(--ink);margin:0;line-height:1.55;font-family:Inter,system-ui,sans-serif;
   padding-left:max(16px, env(safe-area-inset-left,0px));
   padding-right:max(16px, env(safe-area-inset-right,0px));}
-h1,h2,h3{font-family:Sora,system-ui,sans-serif;text-wrap:balance;margin:0 0 .42em;letter-spacing:-.02em;font-weight:700}
+h1,h2,h3{font-family:Sora,system-ui,sans-serif;text-wrap:balance;margin:0 0 00 .42em;letter-spacing:-.02em;font-weight:700}
 p{color:var(--ink-dim)}
 a{color:var(--ink);text-decoration:none}
 .mono{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
@@ -59,7 +59,7 @@ section{padding-block:56px}
 .reveal.go{opacity:1;transform:none}
 
 .hero{position:relative;border-radius:var(--radius);overflow:hidden;padding:72px 40px;margin-top:20px;
-  background-image:url(/_blob/d77e3ae5b435ee51f7ae61fabb10b13c);background-size:cover;background-position:center}
+  background-image:url(/_blob/ed394e873c01b86c969be65150bfa201);background-size:cover;background-position:center}
 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg, rgba(10,10,10,.72), rgba(10,10,10,.42));z-index:0}
 .hero > *{position:relative;z-index:1}
 .hero .eyebrow, .hero .eyebrow::before{color:#fff}
@@ -104,10 +104,19 @@ section{padding-block:56px}
 .quote footer{margin-top:16px;font-size:.85rem;color:var(--ink-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .badge-new{background:var(--accent);color:var(--accent-ink);font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.04em}
 
+/* photos */
+.photo-card{position:relative;aspect-ratio:4/3;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden}
+.photo-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.photo-card:hover img{transform:scale(1.06)}
+.photo-card .label{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;font-size:.82rem;font-weight:700;color:#fff;
+  background:linear-gradient(0deg, rgba(0,0,0,.6), transparent)}
+
 /* about */
+.about-hero{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+.about-hero .photo-card{aspect-ratio:4/4}
 .stat-strip{display:flex;gap:32px;flex-wrap:wrap;margin-top:28px}
 .values{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px}
-@media (max-width:860px){.values{grid-template-columns:1fr}}
+@media (max-width:860px){.about-hero{grid-template-columns:1fr}.values{grid-template-columns:1fr}}
 
 /* contact */
 .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:48px}
@@ -185,6 +194,20 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
         <div class="card reveal pre">
           <h3 style="font-size:1.05rem">Flooring, tile &amp; cabinetry</h3>
           <p>Installation and repair for flooring, tile work, cabinets, and custom wood tops.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head reveal pre"><h2>The kind of spaces we work on</h2></div>
+      <div class="grid cols-2">
+        <div class="photo-card reveal pre">
+          <img src="/_blob/ba69972c8cc4ee932ff760d230279625" alt="Example living space" loading="lazy">
+          <div class="label">Example living space</div>
+        </div>
+        <div class="photo-card reveal pre">
+          <img src="/_blob/019bdab4d23fccfd82abcd3705b00249" alt="Example bathroom remodel" loading="lazy">
+          <div class="label">Example bathroom remodel</div>
         </div>
       </div>
     </section>
@@ -298,6 +321,10 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
           <div><b style="font-family:Sora,sans-serif;font-size:1.4rem;color:var(--ink);font-weight:800">20+</b><div style="font-size:.78rem;color:var(--ink-dim)">services offered</div></div>
           <div><b style="font-family:Sora,sans-serif;font-size:1.4rem;color:var(--ink);font-weight:800">MD</b><div style="font-size:.78rem;color:var(--ink-dim)">Silver Spring area</div></div>
         </div>
+      </div>
+      <div class="photo-card">
+        <img src="/_blob/f1d319ee4589ef6ee3444c2536e8cbc5" alt="Example kitchen remodel">
+        <div class="label">Example kitchen remodel</div>
       </div>
     </div>
 
@@ -458,4 +485,3 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
   routeFromHash();
 })();
 </script>
-
