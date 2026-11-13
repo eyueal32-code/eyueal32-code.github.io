@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fix Force LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* layout: hash-routed pages, crisp white/black editorial palette, hand-drawn line-art project icons, scroll-reveal + count-up motion */
+:root{
+  --bg:#dddada; --surface:#dddada; --surface-2:#dddada; --ink:#000000; --ink-dim:#555555;
+  --line:#c3c0c0; --accent:#000000; --accent-ink:#ffffff; --accent-soft:#dddada;
+  --spark:#000000; --radius:18px;
+} 
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);margin:0;line-height:1.55;font-family:Inter,system-ui,sans-serif;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));}
+h1,h2,h3{font-family:Sora,system-ui,sans-serif;text-wrap:balance;margin:0 0 .42em;letter-spacing:-.02em;font-weight:700}
+p{color:var(--ink-dim)}
+a{color:var(--ink);text-decoration:none}
+.mono{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1120px;margin:0 auto}
+.eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);font-weight:700;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:18px;height:2px;background:var(--spark)}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb, var(--surface) 90%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:Sora,sans-serif;font-weight:800;font-size:1.1rem;color:var(--ink)}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-size:.95rem;font-weight:800;flex:none;transition:transform .35s cubic-bezier(.2,.9,.3,1.3)}
+.brand:hover .brand-mark{transform:rotate(-14deg) scale(1.08)}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav a{position:relative;padding:9px 13px;border-radius:999px;color:var(--ink-dim);font-weight:600;font-size:.86rem;transition:color .15s}
+.nav a::after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:2px;background:var(--spark);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.nav a:hover{color:var(--ink)}
+.nav a:hover::after{transform:scaleX(1)}
+.nav a.active{color:var(--ink)}
+.nav a.active::after{transform:scaleX(1)}
+.topbar-actions{display:flex;align-items:center;gap:12px}
+.phone-chip{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:.84rem;color:var(--ink);font-weight:600;transition:border-color .2s}
+.phone-chip:hover{border-color:var(--ink)}
+.phone-chip svg{flex:none}
+
+main{min-height:60vh}
+section{padding-block:56px}
+.page{display:none}
+.page.active{display:block}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:.92rem;cursor:pointer;border:1px solid transparent;transition:transform .2s cubic-bezier(.2,.9,.3,1.3),box-shadow .2s;font-family:Inter,sans-serif;position:relative;overflow:hidden}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(0,0,0,.4)}
+.btn-ghost{background:transparent;border-color:var(--ink);color:var(--ink)}
+.btn-ghost:hover{background:var(--surface-2);transform:translateY(-2px)}
+.btn-block{width:100%;justify-content:center}
+
+/* reveal-on-scroll */
+.reveal{opacity:1;transform:none;transition:opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1)}
+.reveal.pre{opacity:0;transform:translateY(22px)}
+.reveal.go{opacity:1;transform:none}
+
+.hero{padding-top:36px}
+.hero h1{font-size:clamp(2.3rem,4.8vw,3.6rem);line-height:1.04}
+.hero p.lead{font-size:1.08rem;max-width:48ch}
+.hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+
+.grid{display:grid;gap:22px}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.grid.cols-2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:860px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;min-width:0;transition:transform .25s cubic-bezier(.2,.9,.3,1.2),border-color .25s,box-shadow .25s}
+.card:hover{transform:translateY(-5px);border-color:var(--ink);box-shadow:0 18px 32px -20px rgba(0,0,0,.25)}
+
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:30px;flex-wrap:wrap}
+.section-head h2{font-size:clamp(1.6rem,2.8vw,2.1rem)}
+.section-head a{font-weight:700;font-size:.88rem;border-bottom:2px solid var(--spark);padding-bottom:2px}
+
+/* services */
+.service-cat{margin-bottom:30px}
+.service-cat h3{font-size:1.05rem;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.service-cat h3::before{content:"";width:22px;height:2px;background:var(--spark)}
+.service-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (max-width:700px){.service-list{grid-template-columns:1fr}}
+.service-list li{font-size:.92rem;color:var(--ink);display:flex;gap:10px;align-items:flex-start;padding:4px 0;transition:transform .2s,color .2s}
+.service-list li:hover{transform:translateX(4px);color:var(--spark)}
+.service-list li::before{content:"→";color:var(--spark);flex:none;font-weight:700}
+
+/* reviews */
+.rating-box{display:flex;align-items:center;gap:18px;margin-bottom:34px;flex-wrap:wrap}
+.rating-score{font-family:Sora,sans-serif;font-size:2.8rem;font-weight:800;line-height:1}
+.stars{color:var(--spark);font-size:1.1rem;letter-spacing:2px}
+.quote{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative;transition:transform .25s,box-shadow .25s}
+.quote:hover{transform:translateY(-4px);box-shadow:0 18px 32px -22px rgba(0,0,0,.25)}
+.quote .stars-row{margin-bottom:12px}
+.quote p{color:var(--ink);font-size:1.03rem}
+.quote footer{margin-top:16px;font-size:.85rem;color:var(--ink-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.badge-new{background:var(--accent);color:var(--accent-ink);font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.04em}
+
+/* about */
+.stat-strip{display:flex;gap:32px;flex-wrap:wrap;margin-top:28px}
+.values{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px}
+@media (max-width:860px){.values{grid-template-columns:1fr}}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:48px}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr}}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.82rem;font-weight:600;margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;padding:12px 13px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-family:inherit;font-size:.92rem;transition:border-color .2s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:2px solid var(--ink);outline-offset:1px}
+.contact-info-row{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;padding:17px 0;border-bottom:1px solid var(--line)}
+.contact-info-row:last-child{border-bottom:none}
+.copy-btn{background:none;border:none;color:var(--ink);font-size:.78rem;font-weight:700;cursor:pointer;padding:0;font-family:inherit;border-bottom:2px solid var(--spark)}
+.success-box{background:var(--surface-2);border:1px solid var(--ink);border-radius:var(--radius);padding:22px;display:none}
+.success-box.show{display:block}
+.map-link{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;margin-top:4px;border-bottom:2px solid var(--spark)}
+
+footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
+.foot-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--ink-dim);font-size:.85rem}
+.skip-link{position:absolute;left:-9999px}
+.skip-link:focus{left:16px;top:16px;background:var(--surface);padding:8px 12px;border-radius:8px;z-index:50}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap topbar">
+    <a href="#home" class="brand"><span class="brand-mark">F</span>Fix Force LLC</a>
+    <nav class="nav" id="nav">
+      <a href="#home" data-route="home">Home</a>
+      <a href="#services" data-route="services">Services</a>
+      <a href="#reviews" data-route="reviews">Reviews</a>
+      <a href="#about" data-route="about">About</a>
+      <a href="#contact" data-route="contact">Contact</a>
+    </nav>
+    <div class="topbar-actions">
+      <span class="phone-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (608) 704-9355
+      </span>
+      <a href="#contact" class="btn btn-primary" style="padding:9px 18px">Free estimate</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <!-- HOME -->
+  <section class="page" id="page-home">
+    <div class="hero">
+      <div class="reveal pre">
+        <p class="eyebrow">Handyman services · Silver Spring, MD</p>
+        <h1>Skilled repairs and installations, handled with real care.</h1>
+        <p class="lead">Fix Force LLC brings dependable craftsmanship to homes across the Silver Spring area — from drywall and flooring to electrical, plumbing fixtures, and custom cabinetry. One trusted crew, done right the first time.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Request a free estimate</a>
+          <a href="#services" class="btn btn-ghost">See all services</a>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <div class="section-head reveal pre">
+        <h2>What we handle</h2>
+        <a href="#services">All services →</a>
+      </div>
+      <div class="grid cols-3">
+        <div class="card reveal pre">
+          <h3 style="font-size:1.05rem">General repairs</h3>
+          <p>Drywall, fixtures, furniture assembly, and the everyday fixes every home eventually needs.</p>
+        </div>
+        <div class="card reveal pre">
+          <h3 style="font-size:1.05rem">Electrical &amp; plumbing</h3>
+          <p>Fan installation, lighting, and water fixture repair done safely and to code.</p>
+        </div>
+        <div class="card reveal pre">
+          <h3 style="font-size:1.05rem">Flooring, tile &amp; cabinetry</h3>
+          <p>Installation and repair for flooring, tile work, cabinets, and custom wood tops.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="quote reveal pre" style="max-width:720px">
+        <div class="stars-row stars">★★★★★</div>
+        <p>"Juma is EXCELLENT!! He is reliable, dependable and skillful. There is nothing he cannot do."</p>
+        <footer><span>Tanya Jones Bosier · Google review</span><a href="#reviews">Read more →</a></footer>
+      </div>
+    </section>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="page" id="page-services">
+    <p class="eyebrow">Services</p>
+    <h2 style="font-size:clamp(1.8rem,3.2vw,2.3rem);margin-bottom:10px">Everything your home needs, one call</h2>
+    <p style="max-width:60ch;margin-bottom:40px">Fixed-scope estimates, straightforward pricing, and a crew that shows up when they say they will.</p>
+
+    <div class="service-cat reveal pre">
+      <h3>General handyman &amp; repairs</h3>
+      <ul class="service-list">
+        <li>Handyman / handywoman / handyperson services</li>
+        <li>General repairs</li>
+        <li>Home maintenance &amp; repairs</li>
+        <li>Furniture assembly</li>
+        <li>Remodeling</li>
+      </ul>
+    </div>
+
+    <div class="service-cat reveal pre">
+      <h3>Drywall &amp; painting</h3>
+      <ul class="service-list">
+        <li>Drywall installation</li>
+        <li>Drywall repair</li>
+        <li>Interior painting</li>
+        <li>Paint indoors</li>
+      </ul>
+    </div>
+
+    <div class="service-cat reveal pre">
+      <h3>Electrical &amp; plumbing</h3>
+      <ul class="service-list">
+        <li>Electrical work</li>
+        <li>Fan installation</li>
+        <li>Fan repair</li>
+        <li>Plumbing fixture installation</li>
+        <li>Repair water fixtures</li>
+      </ul>
+    </div>
+
+    <div class="service-cat reveal pre">
+      <h3>Flooring &amp; tile</h3>
+      <ul class="service-list">
+        <li>Install flooring</li>
+        <li>Flooring repair</li>
+        <li>Tile work installation</li>
+        <li>Tile work replacement</li>
+      </ul>
+    </div>
+
+    <div class="service-cat reveal pre">
+      <h3>Carpentry, cabinets &amp; installs</h3>
+      <ul class="service-list">
+        <li>Cabinet installation</li>
+        <li>Door &amp; window installation</li>
+        <li>Wood top installation</li>
+        <li>TV mounting</li>
+      </ul>
+    </div>
+
+    <div class="card reveal pre" style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+      <div>
+        <h3 style="font-size:1.1rem;margin-bottom:4px">Not sure what your project needs?</h3>
+        <p style="margin:0">Tell us what's going on and we'll scope it out on a free estimate call.</p>
+      </div>
+      <a href="#contact" class="btn btn-primary">Get a free estimate</a>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="page" id="page-reviews">
+    <p class="eyebrow">Reviews</p>
+    <h2 style="font-size:clamp(1.8rem,3.2vw,2.3rem);margin-bottom:24px">What clients say</h2>
+    <div class="rating-box">
+      <div class="rating-score">5.0</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <div style="font-size:.84rem;color:var(--ink-dim)">Based on Google reviews</div>
+      </div>
+    </div>
+    <div class="quote">
+      <div class="stars-row stars">★★★★★</div>
+      <p>"Reasonable price. Juma is EXCELLENT!! He is reliable, dependable and skillful. There is nothing he cannot do."</p>
+      <footer>
+        <span>Tanya Jones Bosier · 5 reviews <span class="badge-new">New</span></span>
+        <span>a day ago</span>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="page" id="page-about">
+    <div class="about-hero">
+      <div>
+        <p class="eyebrow">About Fix Force LLC</p>
+        <h2 style="font-size:clamp(1.8rem,3.2vw,2.3rem)">Reliable craftsmanship, right in your neighborhood.</h2>
+        <p>Fix Force LLC is a Silver Spring, Maryland handyman business built on showing up, doing the job properly, and standing behind the work. Led by Juma, the crew handles everything from quick repairs to full remodeling projects — treating every home like it matters, because it does.</p>
+        <div class="stat-strip">
+          <div><b style="font-family:Sora,sans-serif;font-size:1.4rem;color:var(--ink);font-weight:800">5.0★</b><div style="font-size:.78rem;color:var(--ink-dim)">client rating</div></div>
+          <div><b style="font-family:Sora,sans-serif;font-size:1.4rem;color:var(--ink);font-weight:800">20+</b><div style="font-size:.78rem;color:var(--ink-dim)">services offered</div></div>
+          <div><b style="font-family:Sora,sans-serif;font-size:1.4rem;color:var(--ink);font-weight:800">MD</b><div style="font-size:.78rem;color:var(--ink-dim)">Silver Spring area</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="values">
+      <div class="card reveal pre"><h3 style="font-size:1rem">Reliable &amp; on time</h3><p>Juma and the crew show up when scheduled and keep you updated.</p></div>
+      <div class="card reveal pre"><h3 style="font-size:1rem">Skilled across trades</h3><p>From electrical to tile to cabinetry — one call covers most of what your home needs.</p></div>
+      <div class="card reveal pre"><h3 style="font-size:1rem">Local &amp; trusted</h3><p>Based in Silver Spring, serving the surrounding Maryland community.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page" id="page-contact">
+    <p class="eyebrow">Contact</p>
+    <h2 style="font-size:clamp(1.8rem,3.2vw,2.3rem);margin-bottom:30px">Request your free estimate</h2>
+    <div class="contact-grid">
+      <div>
+        <p style="margin-bottom:20px">Call, text, or send a few details below — we'll follow up to confirm scope and timing.</p>
+        <div class="contact-info-row">
+          <div>
+            <div style="font-weight:600;font-size:.9rem">Phone</div>
+            <div class="mono" style="font-size:.95rem;color:var(--ink-dim)">(608) 704-9355</div>
+          </div>
+          <button class="copy-btn" data-copy="(608) 704-9355" type="button">Copy</button>
+        </div>
+        <div class="contact-info-row">
+          <div>
+            <div style="font-weight:600;font-size:.9rem">Email</div>
+            <div class="mono" style="font-size:.95rem;color:var(--ink-dim)">info@fixforcellc.com</div>
+          </div>
+          <button class="copy-btn" data-copy="info@fixforcellc.com" type="button">Copy</button>
+        </div>
+        <div class="contact-info-row">
+          <div>
+            <div style="font-weight:600;font-size:.9rem">Address</div>
+            <div style="font-size:.95rem;color:var(--ink-dim)">586 Beacon Rd, Silver Spring, MD</div>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=586+Beacon+Rd+Silver+Spring+MD" target="_blank" rel="noopener">View on Google Maps →</a>
+          </div>
+        </div>
+        <div class="contact-info-row">
+          <div>
+            <div style="font-weight:600;font-size:.9rem">Hours</div>
+            <div style="font-size:.95rem;color:var(--ink-dim)">Mon–Sat, 8am–6pm</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <form id="contactForm" novalidate>
+          <div class="field">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" name="name" type="text" required placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="cf-phone">Phone</label>
+            <input id="cf-phone" name="phone" type="tel" required placeholder="(555) 555-5555">
+          </div>
+          <div class="field">
+            <label for="cf-service">Service needed</label>
+            <select id="cf-service" name="service">
+              <option value="">Not sure yet</option>
+              <option>Drywall repair / installation</option>
+              <option>Electrical work</option>
+              <option>Plumbing fixtures</option>
+              <option>Flooring / tile</option>
+              <option>Cabinet / door / window install</option>
+              <option>Interior painting</option>
+              <option>Furniture assembly / TV mounting</option>
+              <option>General repair / other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cf-message">Tell us about the project</label>
+            <textarea id="cf-message" name="message" rows="4" required placeholder="What needs fixing, and when works for you?"></textarea>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Request estimate</button>
+          <p style="font-size:.76rem;margin-top:10px">This form is a working demo on this preview page — it won't deliver a message yet. Until it's wired up, call or text (608) 704-9355 directly.</p>
+        </form>
+        <div class="success-box" id="successBox">
+          <strong>Demo form complete.</strong>
+          <p style="margin:6px 0 0;color:var(--ink)">This demo didn’t send a request. To request an estimate, call or text <span class="mono">(608) 704-9355</span>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>© <span id="year"></span> Fix Force LLC · 586 Beacon Rd, Silver Spring, MD</div>
+    <div style="display:flex;gap:18px">
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // routing
+  var routes = ["home","services","reviews","about","contact"];
+  function showRoute(name){
+    if(routes.indexOf(name) === -1) name = "home";
+    routes.forEach(function(r){
+      document.getElementById("page-"+r).classList.toggle("active", r === name);
+    });
+    document.querySelectorAll("#nav a").forEach(function(a){
+      a.classList.toggle("active", a.getAttribute("data-route") === name);
+    });
+    window.scrollTo(0,0);
+    armReveal();
+  }
+  function routeFromHash(){
+    var h = (location.hash || "#home").replace("#","");
+    showRoute(h);
+  }
+  window.addEventListener("hashchange", routeFromHash);
+
+  // scroll reveal
+  var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add("go"); io.unobserve(e.target); }
+    });
+  }, {threshold:.12}) : null;
+
+  function armReveal(){
+    var active = document.querySelector(".page.active");
+    if(!active) return;
+    active.querySelectorAll(".reveal.pre:not(.go)").forEach(function(el){
+      if(io){ io.observe(el); } else { el.classList.add("go"); }
+    });
+  }
+
+  // copy buttons
+  document.querySelectorAll(".copy-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var val = btn.getAttribute("data-copy");
+      var original = btn.textContent;
+      function done(ok){ btn.textContent = ok ? "Copied" : "Copy failed"; setTimeout(function(){ btn.textContent = original; }, 1500); }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(val).then(function(){done(true);}).catch(function(){done(false);});
+      } else { done(false); }
+    });
+  });
+
+  // contact form
+  document.getElementById("contactForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var form = e.target;
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    document.getElementById("successBox").classList.add("show");
+    form.querySelector("button[type=submit]").setAttribute("disabled","true");
+  });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  routeFromHash();
+})();
+</script>
+</body>
+</html>
