@@ -1,4 +1,8 @@
-<meta name="claude:viewport-fit-sides" content="cover">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fix Force LLC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +63,7 @@ section{padding-block:56px}
 .reveal.go{opacity:1;transform:none}
 
 .hero{position:relative;border-radius:var(--radius);overflow:hidden;padding:72px 40px;margin-top:20px;
-  background-image:url(/_blob/ed394e873c01b86c969be65150bfa201);background-size:cover;background-position:center}
+  background-image:url(images/exterior.webp);background-size:cover;background-position:center}
 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg, rgba(10,10,10,.72), rgba(10,10,10,.42));z-index:0}
 .hero > *{position:relative;z-index:1}
 .hero .eyebrow, .hero .eyebrow::before{color:#fff}
@@ -138,7 +142,8 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
 .skip-link:focus{left:16px;top:16px;background:var(--surface);padding:8px 12px;border-radius:8px;z-index:50}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-
+</head>
+<body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header>
@@ -202,11 +207,11 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
       <div class="section-head reveal pre"><h2>The kind of spaces we work on</h2></div>
       <div class="grid cols-2">
         <div class="photo-card reveal pre">
-          <img src="/_blob/ba69972c8cc4ee932ff760d230279625" alt="Example living space" loading="lazy">
+          <img src="images/livingroom.webp" alt="Example living space" loading="lazy">
           <div class="label">Example living space</div>
         </div>
         <div class="photo-card reveal pre">
-          <img src="/_blob/019bdab4d23fccfd82abcd3705b00249" alt="Example bathroom remodel" loading="lazy">
+          <img src="images/bathroom.webp" alt="Example bathroom remodel" loading="lazy">
           <div class="label">Example bathroom remodel</div>
         </div>
       </div>
@@ -323,7 +328,7 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
         </div>
       </div>
       <div class="photo-card">
-        <img src="/_blob/f1d319ee4589ef6ee3444c2536e8cbc5" alt="Example kitchen remodel">
+        <img src="images/kitchen.webp" alt="Example kitchen remodel">
         <div class="label">Example kitchen remodel</div>
       </div>
     </div>
@@ -485,3 +490,6 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
   routeFromHash();
 })();
 </script>
+
+</body>
+</html>
