@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fix Force LLC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
 body{background:var(--bg);color:var(--ink);margin:0;line-height:1.55;font-family:Inter,system-ui,sans-serif;
   padding-left:max(16px, env(safe-area-inset-left,0px));
   padding-right:max(16px, env(safe-area-inset-right,0px));}
-h1,h2,h3{font-family:Sora,system-ui,sans-serif;text-wrap:balance;margin:0 0 .42em;letter-spacing:-.02em;font-weight:700}
+h1,h2,h3{font-family:Sora,system-ui,sans-serif;text-wrap:balance;margin:0 0 00 .42em;letter-spacing:-.02em;font-weight:700}
 p{color:var(--ink-dim)}
 a{color:var(--ink);text-decoration:none}
 .mono{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
@@ -62,15 +62,23 @@ section{padding-block:56px}
 .reveal.pre{opacity:0;transform:translateY(22px)}
 .reveal.go{opacity:1;transform:none}
 
-.hero{padding-top:36px}
-.hero h1{font-size:clamp(2.3rem,4.8vw,3.6rem);line-height:1.04}
-.hero p.lead{font-size:1.08rem;max-width:48ch}
+.hero{position:relative;border-radius:var(--radius);overflow:hidden;padding:72px 40px;margin-top:20px;
+  background-image:url(images/exterior.webp);background-size:cover;background-position:center}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg, rgba(10,10,10,.72), rgba(10,10,10,.42));z-index:0}
+.hero > *{position:relative;z-index:1}
+.hero .eyebrow, .hero .eyebrow::before{color:#fff}
+.hero .eyebrow::before{background:#fff}
+.hero h1{font-size:clamp(2.3rem,4.8vw,3.6rem);line-height:1.04;color:#fff}
+.hero p.lead{font-size:1.08rem;max-width:48ch;color:rgba(255,255,255,.82)}
 .hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.hero .btn-ghost{border-color:#fff;color:#fff}
+.hero .btn-ghost:hover{background:rgba(255,255,255,.12)}
 
 .grid{display:grid;gap:22px}
 .grid.cols-3{grid-template-columns:repeat(3,1fr)}
 .grid.cols-2{grid-template-columns:repeat(2,1fr)}
 @media (max-width:860px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}}
+@media (max-width:600px){.hero{padding:48px 22px}}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;min-width:0;transition:transform .25s cubic-bezier(.2,.9,.3,1.2),border-color .25s,box-shadow .25s}
 .card:hover{transform:translateY(-5px);border-color:var(--ink);box-shadow:0 18px 32px -20px rgba(0,0,0,.25)}
@@ -100,10 +108,19 @@ section{padding-block:56px}
 .quote footer{margin-top:16px;font-size:.85rem;color:var(--ink-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .badge-new{background:var(--accent);color:var(--accent-ink);font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.04em}
 
+/* photos */
+.photo-card{position:relative;aspect-ratio:4/3;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden}
+.photo-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.photo-card:hover img{transform:scale(1.06)}
+.photo-card .label{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;font-size:.82rem;font-weight:700;color:#fff;
+  background:linear-gradient(0deg, rgba(0,0,0,.6), transparent)}
+
 /* about */
+.about-hero{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+.about-hero .photo-card{aspect-ratio:4/4}
 .stat-strip{display:flex;gap:32px;flex-wrap:wrap;margin-top:28px}
 .values{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px}
-@media (max-width:860px){.values{grid-template-columns:1fr}}
+@media (max-width:860px){.about-hero{grid-template-columns:1fr}.values{grid-template-columns:1fr}}
 
 /* contact */
 .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:48px}
@@ -127,7 +144,6 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
 </style>
 </head>
 <body>
-
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header>
@@ -183,6 +199,20 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
         <div class="card reveal pre">
           <h3 style="font-size:1.05rem">Flooring, tile &amp; cabinetry</h3>
           <p>Installation and repair for flooring, tile work, cabinets, and custom wood tops.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head reveal pre"><h2>The kind of spaces we work on</h2></div>
+      <div class="grid cols-2">
+        <div class="photo-card reveal pre">
+          <img src="images/livingroom.webp" alt="Example living space" loading="lazy">
+          <div class="label">Example living space</div>
+        </div>
+        <div class="photo-card reveal pre">
+          <img src="images/bathroom.webp" alt="Example bathroom remodel" loading="lazy">
+          <div class="label">Example bathroom remodel</div>
         </div>
       </div>
     </section>
@@ -297,6 +327,10 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
           <div><b style="font-family:Sora,sans-serif;font-size:1.4rem;color:var(--ink);font-weight:800">MD</b><div style="font-size:.78rem;color:var(--ink-dim)">Silver Spring area</div></div>
         </div>
       </div>
+      <div class="photo-card">
+        <img src="images/kitchen.webp" alt="Example kitchen remodel">
+        <div class="label">Example kitchen remodel</div>
+      </div>
     </div>
 
     <div class="values">
@@ -374,8 +408,8 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
           <p style="font-size:.76rem;margin-top:10px">This form is a working demo on this preview page — it won't deliver a message yet. Until it's wired up, call or text (608) 704-9355 directly.</p>
         </form>
         <div class="success-box" id="successBox">
-          <strong>Demo form complete.</strong>
-          <p style="margin:6px 0 0;color:var(--ink)">This demo didn’t send a request. To request an estimate, call or text <span class="mono">(608) 704-9355</span>.</p>
+          <strong>Got it — thanks.</strong>
+          <p style="margin:6px 0 0;color:var(--ink)">We'll follow up at the phone number you entered. For a faster reply, call <span class="mono">(608) 704-9355</span>.</p>
         </div>
       </div>
     </div>
@@ -456,5 +490,6 @@ footer{border-top:1px solid var(--line);padding-block:36px;margin-top:40px}
   routeFromHash();
 })();
 </script>
+
 </body>
 </html>
